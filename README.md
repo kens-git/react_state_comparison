@@ -1,54 +1,93 @@
-<h1>About</h1>
-<p>Base project for React state management library comparisons.</p>
-<p>Specific implementations for each library are in their respective branch.</p>
-<p>The project does not deal with data fetching nor server synchronization, but instead 
-focuses on managing local application state. To this end, product data is hard-coded into 
-the source files.</p>
-<h1>Specs</h1>
+<h1>Description</h1>
+<p>Jotai is a state management library based around 'atoms'. 
+Atoms store the state of primitive types 
+(booleans, numbers, strings, objects, arrays, sets, maps, etc.), 
+and their current state can be used and modified much like state in 
+React's useState hook.</p>
+<p>When creating atoms, an 'atom config' is what is actually returned and it refers to a store that holds the actual value. The atom config can be considered a handle that allows 
+us to manipulate the actual state value in the store. Generally, I'll use 'atom config' and 'atom' interchangeably, but strictly speaking they aren't the same thing.</p>
+<p>Jotai seeks to minimize re-renders by only causing re-renders to components that are 
+directly dependent on an atom's state.</p>
+
+<h1>Core Concepts</h1>
+<p>Atoms are easily declared:</p>
+<code>
+import { atom } from 'jotai';
+
+const countAtom = atom(0);
+</code>
+
+<p>and used:</p>
+<code>
+import { useAtom } from 'jotai';
+import { countAtom } from './some_file.js'
+
+const CountLabel = () => {
+    const [count, setCount] = useAtom(countAtom);
+
+    return <>
+        <button onClick={() => {setCount(count => { count + 1 })}}>Increment</button>
+        <p>{count}</p>;
+    </>;
+};
+</code>
+<p>In situations where an atom is only needed for read or write access, re-renders can be optimized by using the 'useAtomValue' or 'useSetAtom' hooks:</p>
+<code>
+// Provides read-only access:
+const count = useAtomValue(countAtom);
+
+// Provides write-only access:
+const setCount = useSetAtom(countAtom);
+</code>
+
+<p>The atom() function can also be used to create derived atoms: atoms that reference the value of another atom. These derived atoms can be read-only, write-only, or readable and writable:</p>
+<code>
+const countSquaredReadAtom = atom(
+    // Receives a function to get the current atom value
+    (get) => get(countAtom) * get(countAtom)
+)
+
+const countSquaredWriteAtom = atom(
+  null, // 'null' for get function
+  (get, set, update) => {
+    set(countAtom, get(countAtom) * get(countAtom))
+  }
+)
+
+const countSquaredReadWriteAtom = atom(
+  (get) => get(countAtom) * get(countAtom),
+  (get, set, newCount) => {
+    set(countAtom, newCount * newCount)
+  }
+)
+</code>
+<p>Atoms can be created on demand, meaning we can dynamically create them:</p>
+<code>
+// This function can be called arbitrarily while the application is running to 
+// create a new atom:
+const createAtom = (value) => {
+    return atom(value);
+}
+</code>
+<p>This gives us the flexibility to create new atoms as data is fetched from a server, 
+or when the user interacts with the application in a way that requires us to manage the 
+state of this new, dynamic, data or interaction.</p>
+<h2>Other Features</h2>
 <ul>
-    <li>Light/dark theme switching</li>
-    <li>User account balance (to simulate payment success/failure)</li>
-    <li>List of products</li>
-    <li>Discounts for large purchases:
-        <ul>
-            <li>10% over $500</li>
-            <li>20% over $1,000</li>
-            <li>30% over $5,000</li>
-            <li>Discounts are displayed in the cart and are updated as items are added/removed</li>
-            <li>Discounts are applied during checkout</li>
-        </ul>
-    </li>
-    <li>User favorite products:
-        <ul>
-            <li>Add</li>
-            <li>Remove with button</li>
-            <li>Favorite products no longer show the 'favorite' button when a product is added to favorites.</li>
-        </ul>
-    </li>
-    <li>Shopping cart:
-        <ul>
-            <li>Add products</li>
-            <li>Increment/decrement product count</li>
-            <li>Product count cannot go below 0, and cannot go above the available amount</li>
-            <li>Remove products with buttons</li>
-            <li>If an item that is already in the cart is added again, the amount is added to the existing amount in the cart (i.e., a new cart entry is not created)</li>
-        </ul>
-    </li>
-    <li>Checkout:
-        <ul>
-            <li>Displays a pop-up on successful payment</li>
-            <li>Displays an error message on payment failure (low account balance)</li>
-            <li>Favorite products that are in the cart are removed from the favorites list on a successful payment.</li>
-            <li>Inventory counts are decremented by the amount purchased on a successful payment.</li>
-        </ul>
-    </li>
+    <li>useWithStorage hook for persisting atom values in localStorage.</li>
+    <li>useHydrateAtoms for SSR apps</li>
+    <li>By default atoms support async reads and writes, but there are additional APIs for manually handling async reads and writes.</li>
+    <li>Ability to create atoms that can be reset to their initial value.</li>
+    <li>atomFamily API to create caches of atoms. Atoms are accessed by a key and are 
+created if they don't already exist.</li>
+    <li>Various built-in tools for debugging application state.</li>
 </ul>
-<h1>Write-Up</h1>
-<p>The final write-up should include sections for:</p>
-<ul>
-    <li>A description of the library and its main features</li>
-    <li>A description of the core concepts</li>
-    <li>What was easy to implement with it</li>
-    <li>What was difficult to implement with it</li>
-    <li>Personal preferences (liked/disliked)</li>
-</ul>
+
+<h1>Ease of Use</h1>
+<p></p>
+
+<h1>Difficulties</h1>
+<p></p>
+
+<h1>Preferences</h1>
+<p></p>
