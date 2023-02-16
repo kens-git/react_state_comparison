@@ -8,7 +8,7 @@ the source files.</p>
 <ul>
     <li>Light/dark theme switching</li>
     <li>User account balance (to simulate payment success/failure)</li>
-    <li>List of products (sortable by name, price)</li>
+    <li>List of products</li>
     <li>Discounts for large purchases:
         <ul>
             <li>10% over $500</li>
@@ -28,7 +28,6 @@ the source files.</p>
     <li>Shopping cart:
         <ul>
             <li>Add products</li>
-            <li>Products can be sorted by name, price, quantity</li>
             <li>Increment/decrement product count</li>
             <li>Product count cannot go below 0, and cannot go above the available amount</li>
             <li>Remove products with buttons</li>
