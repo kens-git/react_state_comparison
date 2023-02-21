@@ -1,5 +1,10 @@
+import { useAtomValue } from 'jotai';
+import accountBalanceAtom from '../../store/account';
+
 const UserBalance = () => {
-  return <span>Account balance: $250</span>;
+  const accountBalance = useAtomValue(accountBalanceAtom);
+
+  return <span>Account balance: ${accountBalance}</span>;
 };
 
 export default UserBalance;
