@@ -1,6 +1,8 @@
 import Product from 'src/types/Product';
 
 interface ProductDisplayProps {
+  isFavorited: boolean;
+  onAddtoFavorites(product: Product): void;
   product: Product;
 }
 
@@ -13,9 +15,16 @@ const ProductDisplay = (props: ProductDisplayProps) => {
       </div>
       <div className="mt-1 flex justify-between">
         <span className="italic text-sm">{props.product.category}</span>
-        <button className="p-button bg-button rounded-button text-sm dark:bg-button-dark hover:bg-button-hover dark:hover:bg-button-hover-dark">
-          Favorite
-        </button>
+        {!props.isFavorited && (
+          <button
+            onClick={() => {
+              props.onAddtoFavorites(props.product);
+            }}
+            className="p-button bg-button rounded-button text-sm dark:bg-button-dark hover:bg-button-hover dark:hover:bg-button-hover-dark"
+          >
+            Favorite
+          </button>
+        )}
       </div>
       <p className="mt-default text-sm">Available: {props.product.inventory}</p>
       <div className="flex gap-input">
