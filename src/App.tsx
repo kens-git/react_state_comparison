@@ -18,7 +18,9 @@ const App = () => {
     when it's delivered from the Webpack dev server.
     This causes an issue if the dark theme is stored in local storage
     where the light theme is rendered first then the application is quickly
-    swapped to the dark theme.
+    swapped to the dark theme. A loading component could be shown to mitigate
+    this issue, but, it doesn't seem to add much value to a demo of state
+    management.
 
     Second, putting the theme update here is less than ideal because it will
     cause a re-render of the entire application when the theme is changed,
