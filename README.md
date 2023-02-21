@@ -88,6 +88,3 @@ created if they don't already exist.</li>
 
 <h1>Difficulties</h1>
 <p></p>
-
-<h1>Preferences</h1>
-<p></p>
