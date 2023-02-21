@@ -11,14 +11,14 @@ directly dependent on an atom's state.</p>
 
 <h1>Core Concepts</h1>
 <p>Atoms are easily declared:</p>
-<code>
+<pre>
 import { atom } from 'jotai';
 
 const countAtom = atom(0);
-</code>
+</pre>
 
 <p>and used:</p>
-<code>
+<pre>
 import { useAtom } from 'jotai';
 import { countAtom } from './some_file.js'
 
@@ -30,18 +30,18 @@ const CountLabel = () => {
         <p>{count}</p>;
     </>;
 };
-</code>
+</pre>
 <p>In situations where an atom is only needed for read or write access, re-renders can be optimized by using the 'useAtomValue' or 'useSetAtom' hooks:</p>
-<code>
+<pre>
 // Provides read-only access:
 const count = useAtomValue(countAtom);
 
 // Provides write-only access:
 const setCount = useSetAtom(countAtom);
-</code>
+</pre>
 
 <p>The atom() function can also be used to create derived atoms: atoms that reference the value of another atom. These derived atoms can be read-only, write-only, or readable and writable:</p>
-<code>
+<pre>
 const countSquaredReadAtom = atom(
     // Receives a function to get the current atom value
     (get) => get(countAtom) * get(countAtom)
@@ -60,15 +60,15 @@ const countSquaredReadWriteAtom = atom(
     set(countAtom, newCount * newCount)
   }
 )
-</code>
+</pre>
 <p>Atoms can be created on demand, meaning we can dynamically create them:</p>
-<code>
+<pre>
 // This function can be called arbitrarily while the application is running to 
 // create a new atom:
 const createAtom = (value) => {
     return atom(value);
 }
-</code>
+</pre>
 <p>This gives us the flexibility to create new atoms as data is fetched from a server, 
 or when the user interacts with the application in a way that requires us to manage the 
 state of this new, dynamic, data or interaction.</p>
