@@ -74,7 +74,7 @@ or when the user interacts with the application in a way that requires us to man
 state of this new, dynamic, data or interaction.</p>
 <h2>Other Features</h2>
 <ul>
-    <li>useWithStorage hook for persisting atom values in localStorage.</li>
+    <li>atomWithStorage hook for persisting atom values in localStorage.</li>
     <li>useHydrateAtoms for SSR apps</li>
     <li>By default atoms support async reads and writes, but there are additional APIs for manually handling async reads and writes.</li>
     <li>Ability to create atoms that can be reset to their initial value.</li>
