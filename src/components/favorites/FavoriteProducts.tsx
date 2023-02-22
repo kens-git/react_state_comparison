@@ -8,12 +8,11 @@ const FavoriteProducts = (props: any) => {
   const [favorites, setFavorites] = useAtom(favoritesAtom);
 
   const onFavoriteRemoved = (id: number) => {
-    console.log('removed', id);
     const updatedFavorites = favorites;
     updatedFavorites.delete(id);
     setFavorites(new Map(updatedFavorites));
   };
-  console.log(favorites);
+
   return (
     <div
       className={

@@ -1,8 +1,13 @@
-import { PRODUCT1 } from '../../test_data/data';
+import { useAtom, useAtomValue } from 'jotai';
+import cartAtom from '../../store/cart';
 import CartItem from './CartItem';
+import inventoryAtom from '../../store/inventory';
 import TotalRow from './TotalRow';
 
 const Cart = (props: any) => {
+  const [cart, setCart] = useAtom(cartAtom);
+  const inventory = useAtomValue(inventoryAtom);
+
   return (
     <div
       className={
@@ -11,7 +16,9 @@ const Cart = (props: any) => {
       }
     >
       <h1 className="text-xl">Cart</h1>
-      <CartItem product={PRODUCT1} amount={2} />
+      {[...cart].map((item) => {
+        return <CartItem key={item[0]} product_id={item[0]} />;
+      })}
       <TotalRow />
     </div>
   );
