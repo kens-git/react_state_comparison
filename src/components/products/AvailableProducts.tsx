@@ -17,6 +17,9 @@ const AvailableProducts = (props: any) => {
       inventory.get(product_id).inventory,
       (amount as number) + amountInCart
     );
+    if (amount === amountInCart) {
+      return;
+    }
     currentCart.set(product_id, amount);
     setCart(new Map(currentCart));
   };

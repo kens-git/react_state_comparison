@@ -1,6 +1,7 @@
 import { useAtom, useAtomValue } from 'jotai';
 import { ChangeEvent, useRef } from 'react';
 import cartAtom from '../../store/cart';
+import cartTotalAtom from '../../store/cartTotal';
 import inventoryAtom from '../../store/inventory';
 import Product from '../../types/Product';
 
