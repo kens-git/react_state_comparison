@@ -55,7 +55,7 @@ const countSquaredWriteAtom = atom(
 )
 
 const countSquaredReadWriteAtom = atom(
-  (get) => get(countAtom) * get(countAtom),
+  (get) => get(countAtom) * get(countAtom), 
   (get, set, newCount) => {
     set(countAtom, newCount * newCount)
   }
@@ -84,7 +84,9 @@ created if they don't already exist.</li>
 </ul>
 
 <h1>Ease of Use</h1>
-<p></p>
+<p>Jotai is very easy to use and can basically be used like a global 'useState': an atom is 
+defined somewhere and can then be read/set in multiple places.</p>
 
 <h1>Difficulties</h1>
-<p></p>
+<p>I didn't come across any real difficulties when using Jotai.</p>
+<p>The biggest potential issue with Jotai is that its simple (but powerful) features mean that state can be managed in a huge number of arbitrary ways, which could create a mess of dependencies if not carefully managed. I think out of the box Jotai shines in applications with simple state (especially when compared to Contexts + useState for the same task), but would probably require some custom abstractions or enforced coding practices (or both) to limit atom access and modification if used on a larger project or team.</p>
