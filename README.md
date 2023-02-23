@@ -21,14 +21,14 @@ const countAtom = atom(0);
 <pre>
 import { useAtom } from 'jotai';
 import { countAtom } from './some_file.js'
-
 const CountLabel = () => {
     const [count, setCount] = useAtom(countAtom);
-
-    return <>
-        <button onClick={() => {setCount(count => { count + 1 })}}>Increment</button>
-        <p>{count}</p>;
-    </>;
+    return (
+        &lt;>
+            &lt;button onClick={() => {setCount(count => { count + 1 })}>Increment&lt;/button>
+            &lt;p>{count}&lt;/p>
+        &lt;/>
+    );
 };
 </pre>
 <p>In situations where an atom is only needed for read or write access, re-renders can be optimized by using the 'useAtomValue' or 'useSetAtom' hooks:</p>
@@ -46,19 +46,20 @@ const countSquaredReadAtom = atom(
     // Receives a function to get the current atom value
     (get) => get(countAtom) * get(countAtom)
 )
-
-const countSquaredWriteAtom = atom(
-  null, // 'null' for get function
-  (get, set, update) => {
-    set(countAtom, get(countAtom) * get(countAtom))
-  }
+</pre>
+<pre>
+const countSquaredWriteAtom = atom(null, // 'null' for get function
+    (get, set, update) => {
+        set(countAtom, get(countAtom) * get(countAtom))
+    }
 )
-
+</pre>
+<pre>
 const countSquaredReadWriteAtom = atom(
-  (get) => get(countAtom) * get(countAtom), 
-  (get, set, newCount) => {
-    set(countAtom, newCount * newCount)
-  }
+    (get) => get(countAtom) * get(countAtom), 
+    (get, set, newCount) => {
+        set(countAtom, newCount * newCount)
+    }
 )
 </pre>
 <p>Atoms can be created on demand, meaning we can dynamically create them:</p>
