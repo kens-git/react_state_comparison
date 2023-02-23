@@ -4,7 +4,11 @@ import cartTotalAtom, {
   getDiscount,
 } from '../../store/cartTotal';
 
-const TotalRow = (props: any) => {
+interface TotalRowProps {
+  onCheckout(): void;
+}
+
+const TotalRow = (props: TotalRowProps) => {
   const cartTotal = useAtomValue(cartTotalAtom);
   const cartDiscountedTotal = useAtomValue(cartDiscountedTotalAtom);
 
@@ -26,7 +30,10 @@ const TotalRow = (props: any) => {
         {cartDiscountedTotal !== cartTotal && ' '}$
         {cartDiscountedTotal.toFixed(2)}
       </span>
-      <button className="p-button rounded-button text-lg bg-button dark:bg-button-dark hover:bg-button-hover dark:hover:bg-button-hover-dark">
+      <button
+        onClick={props.onCheckout}
+        className="p-button rounded-button text-lg bg-button dark:bg-button-dark hover:bg-button-hover dark:hover:bg-button-hover-dark"
+      >
         Checkout
       </button>
     </div>

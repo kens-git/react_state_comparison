@@ -1,12 +1,41 @@
 import { useAtom, useAtomValue } from 'jotai';
-import cartAtom from '../../store/cart';
+import accountBalanceAtom from '../../store/account';
+import cartAtom, { checkoutMessageAtom } from '../../store/cart';
 import CartItem from './CartItem';
+import cartTotalAtom, { cartDiscountedTotalAtom } from '../../store/cartTotal';
+import favoritesAtom from '../../store/favorites';
 import inventoryAtom from '../../store/inventory';
 import TotalRow from './TotalRow';
 
 const Cart = (props: any) => {
+  const [accountBalance, setAccountBalance] = useAtom(accountBalanceAtom);
   const [cart, setCart] = useAtom(cartAtom);
-  const inventory = useAtomValue(inventoryAtom);
+  const cartDiscountedTotal = useAtomValue(cartDiscountedTotalAtom);
+  const [checkoutMessage, setCheckoutMessage] = useAtom(checkoutMessageAtom);
+  const [favorites, setFavorites] = useAtom(favoritesAtom);
+  const [inventory, setInventory] = useAtom(inventoryAtom);
+
+  const onCheckout = () => {
+    if (accountBalance >= cartDiscountedTotal) {
+      setAccountBalance(accountBalance - cartDiscountedTotal);
+      const updatedFavorites = favorites;
+      const updatedInventory = inventory;
+      cart.forEach((amount, key) => {
+        updatedFavorites.delete(key);
+        const inventoryItem = updatedInventory.get(key);
+        updatedInventory.set(key, {
+          ...inventoryItem,
+          inventory: inventoryItem!.inventory - cart.get(key),
+        });
+      });
+      setInventory(new Map(updatedInventory));
+      setFavorites(new Map(updatedFavorites));
+      setCart(new Map());
+      setCheckoutMessage('Payment successful. Expect delivery in 99999+ days.');
+      return;
+    }
+    setCheckoutMessage('Not enough funds.');
+  };
 
   return (
     <div
@@ -19,7 +48,10 @@ const Cart = (props: any) => {
       {[...cart].map((item) => {
         return <CartItem key={item[0]} product_id={item[0]} />;
       })}
-      <TotalRow />
+      <TotalRow onCheckout={onCheckout} />
+      {checkoutMessage && (
+        <span className="text-center">{checkoutMessage}</span>
+      )}
     </div>
   );
 };
